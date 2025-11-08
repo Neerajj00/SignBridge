@@ -9,7 +9,9 @@ import { Button } from '../components/Button';
 import SpeechRecognition, {
   useSpeechRecognition,
 } from "react-speech-recognition";
-function Speech2image() {
+
+
+function SpeechToSign() {
   const [finalText, setFinalText] = useState("")
   const [signUrl, setSignUrl] = useState(null);
   const [ttsUrl, setTtsUrl] = useState(null);
@@ -59,7 +61,7 @@ function Speech2image() {
     resetTranscript();
   };
   return (
-    <div>
+    <div className="h-full">
       <div className="grid md:grid-cols-2 gap-6 mb-8">
         <ParticipantCard
           name="You"
@@ -73,11 +75,6 @@ function Speech2image() {
         />
       </div>
 
-      {/* Live Transcript */}
-      {transcript && <MessageDisplay message={transcript} />}
-
-      {/* Final Response */}
-      {finalText && <MessageDisplay message={finalText} />}
 
       {/* Sign Video */}
       {signUrl && (
@@ -109,7 +106,7 @@ function Speech2image() {
             onClick={startListening}
             disabled={listening}
             className={listening ? "opacity-50 cursor-not-allowed" : ""}
-          >
+            >
             <MicIcon className="mr-2" /> Start
           </Button>
 
@@ -119,7 +116,7 @@ function Speech2image() {
             onClick={stopListening}
             disabled={!listening}
             className={!listening ? "opacity-50 cursor-not-allowed" : ""}
-          >
+            >
             <Square className="mr-2" /> Stop
           </Button>
 
@@ -127,9 +124,14 @@ function Speech2image() {
             Reset
           </Button>
         </div>
+      {/* Live Transcript */}
+      {transcript && <MessageDisplay message={transcript} />}
+    
+      {/* Final Response */}
+      {finalText && <MessageDisplay message={finalText} />}
       </div>
     </div>
   );
 }
 
-export default Speech2image;
+export default SpeechToSign;

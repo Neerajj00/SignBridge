@@ -1,24 +1,36 @@
-
-import { Header } from './components/Header';
-import Speech2image from './pages/speech2image';
-
-const BACKEND_URL = "http://localhost:8000/api/process";
+import { useState } from "react";
+import { Header } from "./components/Header";
+import SpeechToSign from './pages/SpeechToSign';
+import SignToSpeech from "./pages/SignToSpeech";
 
 const App = () => {
-  
+  const [mode, setMode] = useState("speech2sign"); // speech2sign | sign2speech
+
+  const toggleMode = () => {
+    setMode((prev) => (prev === "speech2sign" ? "sign2speech" : "speech2sign"));
+  };
 
   return (
     <div className="min-h-screen bg-neutral-900 text-neutral-100">
       <Header />
 
       <main className="max-w-6xl mx-auto px-6 py-8">
-        <div>
-          <h1 className="text-2xl font-semibold mb-8">
-            Speech 2 Sign
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-2xl font-semibold">
+            {mode === "speech2sign" ? "Speech 2 Sign" : "Sign 2 Speech"}
           </h1>
 
+          {/* Toggle Button */}
+          <button
+            onClick={toggleMode}
+            className="px-4 py-2 bg-neutral-700 rounded-md hover:bg-neutral-600 transition"
+          >
+            Switch to {mode === "speech2sign" ? "Sign 2 Speech" : "Speech 2 Sign"}
+          </button>
         </div>
-        <Speech2image />
+
+        {/* Render Based on Mode */}
+        {mode === "speech2sign" ? <SpeechToSign /> : <SignToSpeech />}
       </main>
     </div>
   );
