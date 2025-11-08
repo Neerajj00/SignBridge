@@ -12,6 +12,64 @@ import SpeechRecognition, {
 } from "react-speech-recognition";
 
 import { GoogleGenAI } from "@google/genai";
+
+const availableGifs = [
+  "ANGRY",
+  "BAD",
+  "BYE",
+  "COME-GO",
+  "CONGRATULATIONS",
+  "DAY",
+  "DRINK",
+  "EAT",
+  "EXCITED",
+  "FAMILY",
+  "FRIEND",
+  "GOOD-MORNING",
+  "GOOD",
+  "HAPPY",
+  "HAVE",
+  "HELLO",
+  "HELP",
+  "HUNGRY",
+  "I-LOVE-YOU",
+  "KNOW",
+  "LATER",
+  "LEARN",
+  "LIKE",
+  "MAYBE",
+  "MORNING",
+  "MY",
+  "NEED",
+  "NIGHT",
+  "NO",
+  "NOT-LIKE",
+  "NOW",
+  "PLAY",
+  "PLEASE",
+  "SAD",
+  "SEE-YOU-LATER",
+  "SEE",
+  "SIT",
+  "SLEEP",
+  "SORRY",
+  "STAND",
+  "STOP",
+  "SURPRISE",
+  "THANKYOU",
+  "TIRED",
+  "TOMORROW",
+  "UNDERSTAND",
+  "WAIT",
+  "WANT",
+  "WE",
+  "WELCOME",
+  "WORK",
+  "YES",
+  "YOU",
+  "YOUR",
+];
+
 function SpeechToSign() {
   const [finalText, setFinalText] = useState("");
   const [aslConcept, setAslConcept] = useState("");
@@ -34,9 +92,9 @@ function SpeechToSign() {
 
   const startListening = () => {
     // Reset everything before starting a new session
-  resetTranscript();
-  setFinalText("");
-  setAslConcept("");
+    resetTranscript();
+    setFinalText("");
+    setAslConcept("");
     SpeechRecognition.startListening({
       continuous: true,
       interimResults: true,
@@ -52,13 +110,21 @@ function SpeechToSign() {
 
   async function fetchASLConcept(transcript) {
     const prompt = `
-    You are an ASL translation assistant.
-    Convert this English sentence into a single ASL gloss or concept word.
-    Example:
-    "I am hungry" -> HUNGRY
-    "Good morning" -> GOOD-MORNING
-    "How are you" -> HOW-YOU
-    Sentence: "${transcript}"
+  You are an ASL translation assistant.
+  
+  Your task:
+  1. Translate the following English phrase into one or more ASL gloss keywords.
+  2. ONLY use these available glosses:
+  ${availableGifs.join(", ")}.
+  3. If a word isn't in the list, choose the closest available concept.
+  4. Respond ONLY with the matching gloss keywords separated by spaces or dashes.
+  5. Example:
+     "I am hungry" -> HUNGRY
+     "Goodbye" -> BYE
+     "See you later" -> SEE-YOU-LATER
+     "Good morning my friend" -> GOOD-MORNING MY FRIEND
+  
+  Sentence: "${transcript}"
   `;
 
     try {
@@ -67,9 +133,8 @@ function SpeechToSign() {
         contents: prompt,
       });
 
-      // Depending on SDK version, result.text or result.output_text may apply
       const output = result.output_text || result.text;
-      return output.trim().toLowerCase();
+      return output.trim().toUpperCase(); // match GIF casing
     } catch (err) {
       console.error("Gemini error:", err);
       return null;
@@ -117,11 +182,18 @@ function SpeechToSign() {
           isAI={false}
           isSpeaking={listening}
         />
-        <ParticipantCard
-          name="Deaf User"
-          icon={<Hand className="w-12 h-12 text-neutral-300" />}
-          isAI={true}
-        />
+
+        {aslConcept ? (
+          <div className="mt-8">
+            <ASLGifDisplay text={aslConcept} />
+          </div>
+        ) : (
+          <ParticipantCard
+            name="Deaf User"
+            icon={<Hand className="w-12 h-12 text-neutral-300" />}
+            isAI={true}
+          />
+        )}
       </div>
 
       {/* Results */}
