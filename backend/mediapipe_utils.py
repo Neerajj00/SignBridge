@@ -16,7 +16,7 @@ NUM_FEATURES = (POSE_N + HAND_N + HAND_N) * 3  # x,y,z for each landmark
 holistic=mp.holistic.Holistic(static_image_mode=False,
                               model_complexity=1,
                               enable_segmentation=False,
-                              refine_face_landmarks=False)
+                              refine_face_landmarks=False) 
 
 def extract_keypoints(image):
     """Given an RGB image frame (numpy), return a flattened array of landmarks or None."""
