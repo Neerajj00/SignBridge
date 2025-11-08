@@ -32,6 +32,7 @@ function SpeechToSign() {
   }
 
   const startListening = () => {
+
     SpeechRecognition.startListening({
       continuous: true,
       interimResults: true,
@@ -67,6 +68,7 @@ function SpeechToSign() {
           name="You"
           icon={<MicIcon className="w-12 h-12 text-neutral-300" />}
           isAI={false}
+          isSpeaking={listening}
         />
         <ParticipantCard
           name="Deaf User"
@@ -92,12 +94,6 @@ function SpeechToSign() {
 
       {/* Control Section */}
       <div className="flex flex-col items-center gap-4 mt-8">
-        {listening && (
-          <div className="flex items-center gap-2 text-yellow-300 animate-pulse">
-            <MicIcon className="w-5 h-5" />
-            <span>Listening...</span>
-          </div>
-        )}
 
         <div className="flex gap-4">
           <Button
@@ -125,7 +121,8 @@ function SpeechToSign() {
           </Button>
         </div>
       {/* Live Transcript */}
-      {transcript && <MessageDisplay message={transcript} />}
+      {transcript ? <MessageDisplay message={transcript} /> :  <MessageDisplay message={"No speech detected yet. Please start speaking."} /> }
+      
     
       {/* Final Response */}
       {finalText && <MessageDisplay message={finalText} />}

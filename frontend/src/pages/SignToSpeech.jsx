@@ -27,6 +27,8 @@ function SignToSpeech() {
     const form = new FormData();
     form.append("frame", blob, "capture.jpg");
 
+    console.log("Sending frame to backend for processing...");
+
     const res = await fetch(BACKEND_URL, { method: "POST", body: form });
     const data = await res.json();
 
@@ -35,6 +37,7 @@ function SignToSpeech() {
       data.tts_audio_url ? `http://localhost:8000${data.tts_audio_url}` : null
     );
 
+    console.log("Received response from backend:", data);
     setProcessing(false);
     setCapturing(false);
   };
