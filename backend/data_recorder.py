@@ -23,7 +23,7 @@ ACTIONS = [
 SEQ_LENGTH = 30           # number of frames per sequence
 RECORDS_PER_ACTION = 30   # number of sequences per action
 DATA_DIR = 'dataset'
-COUNTDOWN_SECONDS = 10
+COUNTDOWN_SECONDS = 4  # countdown before recording
 FRAME_DELAY_MS = 100      # milliseconds between frames
 
 # Make dataset directories
