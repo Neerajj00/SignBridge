@@ -1,0 +1,17 @@
+fastapi
+uvicorn
+gtts
+speechrecognition
+google-generativeai
+opencv-python
+mediapipe
+torch
+numpy
+python-multipart
+pydantic
+aiofiles
+websockets
+tensorflow
+scikit-learn
+pandas
+python-dotenv
