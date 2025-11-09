@@ -18,8 +18,15 @@ export const ASLGifDisplay = ({ text }) => {
   const word = words[current];
   const gifPath = `/asl_gifs/${word}.gif`;
 
+
+  const baseClass =
+    
+    " rounded-xl border border-neutral-700 overflow-hidden flex flex-col items-center justify-center h-full w-full transition-all duration-300 hover:border-neutral-500";
+
+
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-[280px]">
+    <div className={`${baseClass} "bg-neutral-800"`}>
       <motion.img
         key={word}
         src={gifPath}
@@ -27,9 +34,9 @@ export const ASLGifDisplay = ({ text }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5 }}
-        className="w-48 h-48 object-contain"
+        className="h-full w-full object-cover"
       />
-      <span className="text-neutral-200 text-lg mt-2">{word}</span>
+      {/* <span className="text-neutral-200 text-lg mt-2">{word}</span> */}
     </div>
   );
 };

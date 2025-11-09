@@ -9,7 +9,7 @@ export const ParticipantCard = ({
   className = ""
 }) => {
   const baseClass =
-    "relative rounded-xl border border-neutral-700 p-8 flex flex-col items-center justify-center min-h-[280px] transition-all duration-300 hover:border-neutral-500";
+    " rounded-xl border border-neutral-700 p-8 flex flex-col items-center justify-center h-full transition-all duration-300 hover:border-neutral-500";
 
   const bgClass = isAI
     ? "bg-gradient-to-br from-neutral-800 to-neutral-700"

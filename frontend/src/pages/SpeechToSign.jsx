@@ -174,8 +174,8 @@ function SpeechToSign() {
   console.log("AslConcept:", aslConcept);
 
   return (
-    <div className="h-full">
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
+    <div className="h-full ">
+      <div className="grid md:grid-cols-2 gap-6 mb-4 h-70 bg-amber-300 ">
         <ParticipantCard
           name="You"
           icon={<MicIcon className="w-12 h-12 text-neutral-300" />}
@@ -184,9 +184,7 @@ function SpeechToSign() {
         />
 
         {aslConcept ? (
-          <div className="mt-8">
             <ASLGifDisplay text={aslConcept} />
-          </div>
         ) : (
           <ParticipantCard
             name="Deaf User"
