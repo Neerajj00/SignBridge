@@ -1,4 +1,5 @@
 import numpy as np
+import tensorflow as tf
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.layers import LSTM, Dense, Dropout, BatchNormalization
@@ -18,6 +19,9 @@ y_val = np.load('y_val.npy')
 SEQ_LENGTH = X_train.shape[1]
 NUM_FEATURES = X_train.shape[2]
 NUM_CLASSES = y_train.shape[1]
+print(f"[INFO] SEQ_LENGTH: {SEQ_LENGTH}, NUM_FEATURES: {NUM_FEATURES}, NUM_CLASSES: {NUM_CLASSES}")
+print('X_train shape', X_train.shape)
+print('y_train shape', y_train.shape)
 
 # Normalize data (feature scaling)
 
@@ -34,12 +38,11 @@ print('X_train shape', X_train.shape)
 print("[INFO] Building improved LSTM model...")
 model = Sequential([
     LSTM(128, return_sequences=True, input_shape=(SEQ_LENGTH, NUM_FEATURES)),
-    Dropout(0.3),
     BatchNormalization(),
-
+    Dropout(0.4),
     LSTM(64, return_sequences=False),
-    Dropout(0.3),
     BatchNormalization(),
+    Dropout(0.4),
 
     Dense(64, activation='relu'),
     Dropout(0.3),
@@ -54,14 +57,15 @@ model.summary()
 # Training callbacks
 # =============================================================================
 es = EarlyStopping(monitor='val_accuracy', patience=10, restore_best_weights=True)
+reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.5, patience=5, min_lr=1e-5)
 mc = ModelCheckpoint('model_best.keras', monitor='val_accuracy', save_best_only=True)
 
 print("[INFO] Starting training...")
 history = model.fit(
     X_train, y_train,
     validation_data=(X_val, y_val),
-    epochs=100,
-    batch_size=16,
+    epochs=80,
+    batch_size=8,
     callbacks=[es, mc],
     verbose=1
 )

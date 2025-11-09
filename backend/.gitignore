@@ -223,3 +223,7 @@ backend/X_train.npy
 # X_val.npy
 # y_train.npy
 # y_val.npy
+convert_tfjs.py
+dataset
+data_recorder.py
+train_lstm.py

@@ -7,7 +7,7 @@ from sklearn.preprocessing import LabelEncoder
 from tensorflow.keras.utils import to_categorical
 
 DATA_DIR = "dataset"
-SEQ_LENGTH = 10  # Number of frames per sequence
+SEQ_LENGTH = 8  # Number of frames per sequence
 seq_lengths=[]
 for action in os.listdir(DATA_DIR):
     action_dir = os.path.join(DATA_DIR, action)
