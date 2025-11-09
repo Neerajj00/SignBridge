@@ -14,7 +14,7 @@ const availableGifs = [
   "MORNING", "MY", "NEED", "NIGHT", "NO", "NOT-LIKE", "NOW", "PLAY", "PLEASE",
   "SAD", "SEE-YOU-LATER", "SEE", "SIT", "SLEEP", "SORRY", "STAND", "STOP", "SURPRISE",
   "THANKYOU", "TIRED", "TOMORROW", "UNDERSTAND", "WAIT", "WANT", "WE", "WELCOME",
-  "WORK", "YES", "YOU", "YOUR",
+  "WORK", "YES", "YOU", "YOUR", "I-AM"
 ];
 
 function SpeechToSign() {
@@ -94,6 +94,9 @@ Sentence: "${transcript}"
       setTimeout(() => SpeechRecognition.abortListening(), 200);
     }
   };
+
+  console.log("Final Text:", finalText);
+  console.log("ASL Concept:", aslConcept);
 
   return (
     <div className="h-full px-2 sm:px-4">
