@@ -20,7 +20,7 @@ mp_drawing = mp.solutions.drawing_utils
 #     refine_face_landmarks=True
 # )
 
-NUM_FEATURES = (33*4) + (21*3*2) + (468*3)  # pose + both hands + face
+NUM_FEATURES = (33*4) + (21*3*2) + (468*3)
 
 def extract_keypoints(results):
     """Extract and flatten all landmarks into a feature vector"""
@@ -28,9 +28,15 @@ def extract_keypoints(results):
                      for res in results.pose_landmarks.landmark]).flatten() \
            if results.pose_landmarks else np.zeros(33*4)
     
-    face = np.array([[res.x, res.y, res.z] 
-                     for res in results.face_landmarks.landmark]).flatten() \
-           if results.face_landmarks else np.zeros(468*3)
+    if results.face_landmarks:
+        face = np.array([[lm.x, lm.y, lm.z]
+                         for lm in results.face_landmarks.landmark]).flatten()
+        if face.shape[0] > 468 * 3:
+            face = face[:468 * 3]            # crop extras
+        elif face.shape[0] < 468 * 3:
+            face = np.pad(face, (0, 468 * 3 - face.shape[0]))
+    else:
+        face = np.zeros(468 * 3)
     
     left_hand = np.array([[res.x, res.y, res.z] 
                           for res in results.left_hand_landmarks.landmark]).flatten() \
